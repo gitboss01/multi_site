@@ -12,7 +12,7 @@ abstract class Controller {
     public function __construct(){
         $this->client = new \GuzzleHttp\Client([
             'cookies' => true,
-            'proxy' => 'https://107.181.177.134:443',
+            // 'proxy' => 'https://107.181.177.134:443',
         ]);
         $response = $this->client->request('GET', $this->url);
         $this->pre_body = (string) $response->getBody();

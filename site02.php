@@ -15,7 +15,10 @@ class Site02 extends Controller
         '99'=>'hijokin_h'
     ];
    
-
+    public $work_state =[
+        '10'=>1,
+        '20'=>2
+    ];
     public function __construct()
     {
         $this->url = 'https://j-depo.com/kango/register';
@@ -53,8 +56,11 @@ class Site02 extends Controller
         if($origin_data['jiki']=='99'){
             $origin_data['jiki']=12;
         }
-        $hope_term=date('y-m',strtotime(+"{$origin_data['jiki']} month"));
-        echo $hope_term;die;
+        $hope_term=date('Y-m',strtotime("+{$origin_data['jiki']} month")); 
+        $hope_year_month=explode("-",$hope_term);
+        $hope_region=$db->select("region_name","region",["id"=>$origin_data['hope_region']]);
+        $hope_city=$db->select("cities","name",["id"=>$origin_data['hope_city']]);
+        
 
         $this->first_data = array(
             '_method'=>'POST',
@@ -83,11 +89,11 @@ class Site02 extends Controller
             'data[User][com_type]'=>'',
             'data[User][com_type][]'=>'2',
             'data[User][com_type][]'=>'10',
-            'data[User][workstart][year]'=>'2020',
-            'data[User][workstart][month]'=>'09',
+            'data[User][workstart][year]'=>$hope_year_month[0],
+            'data[User][workstart][month]'=>$hope_year_month[1],
             'data[User][salary]'=>'4',
-            'data[User][terms_pref][0]'=>'北海道',
-            'data[User][terms_city][0]'=>'札幌市北区',
+            'data[User][terms_pref][0]'=>$hope_region[0],
+            'data[User][terms_city][0]'=>$hope_city[0],
             'data[User][terms_pref][1]'=>'',
             'data[User][terms_city][1]'=>'',
             'data[User][terms_pref][2]'=>'',
@@ -113,18 +119,18 @@ class Site02 extends Controller
 
         $this->third_data = [
             '_method'=>'PUT',
-            'data[User][certi_year]'=>'2001',
+            'data[User][certi_year]'=>$origin_data['year'],
             'data[User][family]'=>'',
-            'data[User][family]'=>'0',
-            'data[User][workstatus]'=>'1',
+            'data[User][family]'=>'1',
+            'data[User][workstatus]'=>$this->work_state[$origin_data['wk_state']],
             'data[User][workend][year]'=>'',
             'data[User][workend][month]'=>'',
             'data[User][recruit_status]'=>'0',
             'data[User][career_flag]'=>'',
-            'data[Career][0][year]'=>'3',
-            'data[Career][0][month]'=>'1',
-            'data[Career][0][com_type]'=>'1',
-            'data[Career][0][business]'=>'6',
+            'data[Career][0][year]'=>'',
+            'data[Career][0][month]'=>'',
+            'data[Career][0][com_type]'=>'',
+            'data[Career][0][business]'=>'',
             'data[Career][1][year]'=>'',
             'data[Career][1][month]'=>'',
             'data[Career][1][com_type]'=>'',

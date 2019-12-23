@@ -104,7 +104,6 @@ class Site03 extends Controller
             'candidate[name_kana]' =>  $origin_data['seikana'] .' '. $origin_data['meikana'],
         ];
 
-        // var_export($this->post_data);die;
         $this->second_data = [
             'candidate[email_registered]' => 'false',
             'candidate[office_id]' => '',
